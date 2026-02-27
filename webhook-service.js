@@ -18,6 +18,16 @@ const webhookService = {
         return true
       }
 
+      if(typeof message.new_chat_members !== 'undefined'){
+        console.log("Received a new chat member message, sending welcome message.");
+        for (const member of message.new_chat_members) {
+          await webhookService.welcomeNewUser({
+            first_name: member.first_name,
+          });
+        }
+        return true
+      }
+
       const validateResult = webhookService.validateMessageUrl(message);
       if(!validateResult.valid){
         // update message text to other content
@@ -53,6 +63,22 @@ const webhookService = {
       console.error("Error processing webhook message:", error);
       return false
     }
+  },
+
+  welcomeNewUser: async (message) => {
+    const messageFrom = message.first_name || 'Unknown';
+    const welcomeText = `🎉✨ Chào mừng [${messageFrom}] đến với group của chúng ta! ✨🎉
+Rất vui khi có bạn đồng hành và cùng trao đổi trong cộng đồng này 🤝💬
+Nếu có điều gì chưa rõ, cứ thoải mái nhắn lên group hoặc liên hệ admin 🛎️ để được hỗ trợ nhanh nhất nhé! 🚀😊`
+
+    await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: message.chat.id,
+        text: welcomeText,
+      })
+    });
   },
 
   validateMessageUrl(message) {
