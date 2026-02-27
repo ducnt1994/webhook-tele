@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+jspm_packages/
+.pnp.*
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Build/Coverage
+dist
+build/Release
+coverage
+.nyc_output
+
+# Environment Variables
+.env
+.env.test
+
+# Cache
+.eslintcache
+.cache
+.parcel-cache
+.next
+.nuxt
+.rpt2_cache/
+
+# IDE/Tools
+.vscode-test
+.yarn/
