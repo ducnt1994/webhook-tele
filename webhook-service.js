@@ -23,6 +23,8 @@ const webhookService = {
         // update message text to other content
         const messageFrom = message.from ? `${message.from.first_name || ""} ${message.from.last_name || ""}`.trim() : "Unknown";
         const newText = `Tin nhắn từ ${messageFrom} đã bị xoá do chứa URL không hợp lệ.`;
+        console.log("newText", newText);
+        console.log("env", process.env.TELEGRAM_BOT_TOKEN);
         // xoá message cũ
         await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/deleteMessage`, {
           method: 'POST',
