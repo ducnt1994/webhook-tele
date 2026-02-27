@@ -22,6 +22,7 @@ const webhookService = {
         console.log("Received a new chat member message, sending welcome message.");
         for (const member of message.new_chat_members) {
           await webhookService.welcomeNewUser({
+            ...message,
             first_name: member.first_name,
           });
         }
