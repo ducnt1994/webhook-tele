@@ -26,7 +26,7 @@ const webhookService = {
         console.log("newText", newText);
         console.log("env", process.env.TELEGRAM_BOT_TOKEN);
         // xoá message cũ
-        await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/deleteMessage`, {
+        await fetch(`https://api.telegram.org/bot8732120050:AAFM6VxDnc82Y8iSZ4l2p35g7y_5AJ7Viqg/deleteMessage`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -35,7 +35,7 @@ const webhookService = {
           })
         });
         // gửi message mới với text đã chỉnh sửa
-        await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        await fetch(`https://api.telegram.org/bot8732120050:AAFM6VxDnc82Y8iSZ4l2p35g7y_5AJ7Viqg/sendMessage`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
