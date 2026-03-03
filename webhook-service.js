@@ -1,8 +1,9 @@
+const listAdminId = [1844578247]
+
 const webhookService = {
   checkWebhookMessage: async (req, res) => {
     const groupChatId = -1002721467839
     try {
-      console.log("Received webhook message:", JSON.stringify(req.body));
       const { message } = req.body;
       if(!message) {
         console.error("Invalid webhook message: 'message' field is missing");
@@ -34,8 +35,6 @@ const webhookService = {
         // update message text to other content
         const messageFrom = message.from ? `${message.from.first_name || ""} ${message.from.last_name || ""}`.trim() : "Unknown";
         const newText = `Tin nhắn từ ${messageFrom} đã bị xoá do chứa URL không hợp lệ.`;
-        console.log("newText", newText);
-        console.log("env", process.env.TELEGRAM_BOT_TOKEN);
         // xoá message cũ
         await fetch(`https://api.telegram.org/bot8732120050:AAFM6VxDnc82Y8iSZ4l2p35g7y_5AJ7Viqg/deleteMessage`, {
           method: 'POST',
