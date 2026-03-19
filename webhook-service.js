@@ -33,7 +33,7 @@ const webhookService = {
       }
       const allowUserAdminId = [1844578247, -1002716471604]
       const validateResult = webhookService.validateMessageUrl(message);
-      if(!validateResult.valid || (typeof message.forward_origin !=='undefined' && !allowUserAdminId.includes(message.from.id))){
+      if(!validateResult.valid || ((typeof message.forward_origin !=='undefined' || typeof message.external_reply !== 'undefined') && !allowUserAdminId.includes(message.from.id))){
         // update message text to other content
         const messageFrom = message.from ? `${message.from.first_name || ""} ${message.from.last_name || ""}`.trim() : "Unknown";
         const newText = `Tin nhắn từ ${messageFrom} đã bị xoá do chứa URL không hợp lệ.`;
