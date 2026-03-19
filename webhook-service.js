@@ -5,6 +5,7 @@ const webhookService = {
     const groupChatId = -1002721467839
     try {
       const { message } = req.body;
+      console.log("Received webhook message:", JSON.stringify(req.body));
       if(!message) {
         console.error("Invalid webhook message: 'message' field is missing");
         return false
