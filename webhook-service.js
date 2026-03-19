@@ -3,6 +3,7 @@ const listAdminId = [1844578247]
 const webhookService = {
   checkWebhookMessage: async (req, res) => {
     const groupChatId = -1002721467839
+
     try {
       const { message } = req.body;
       console.log("Received webhook message:", JSON.stringify(req.body));
@@ -30,9 +31,9 @@ const webhookService = {
         }
         return true
       }
-
+      const allowUserAdminId = [1844578247, -1002716471604]
       const validateResult = webhookService.validateMessageUrl(message);
-      if(!validateResult.valid){
+      if(!validateResult.valid || (typeof message.forward_origin !=='undefined' && !allowUserAdminId.includes(message.sender_chat.id))){
         // update message text to other content
         const messageFrom = message.from ? `${message.from.first_name || ""} ${message.from.last_name || ""}`.trim() : "Unknown";
         const newText = `Tin nhắn từ ${messageFrom} đã bị xoá do chứa URL không hợp lệ.`;
@@ -83,6 +84,10 @@ Nếu có điều gì chưa rõ, cứ thoải mái nhắn lên group hoặc liê
   },
 
   validateMessageUrl(message) {
+    const allowUserAdminId = [1844578247, -1002716471604]
+    if(allowUserAdminId.includes(message.sender_chat.id)){
+      return { valid: true, reason: "admin_bypass" };
+    }
     const whitelistDomains = ['bingx.com','one.exnessonelink.com'];
     const text = message?.text || message?.caption || "";
     const entities = message?.entities || message?.caption_entities || [];
