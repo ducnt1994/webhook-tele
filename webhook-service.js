@@ -31,9 +31,9 @@ const webhookService = {
         }
         return true
       }
-      const allowUserAdminId = [1844578247, -1002716471604]
+      const allowUserAdminId = [1844578247]
       const validateResult = webhookService.validateMessageUrl(message);
-      if(!validateResult.valid || ((typeof message.forward_origin !=='undefined' || typeof message.external_reply !== 'undefined') && !allowUserAdminId.includes(message.from.id))){
+      if(!validateResult.valid || !webhookService.isNotForwardMessage(message)){
         // update message text to other content
         const messageFrom = message.from ? `${message.from.first_name || ""} ${message.from.last_name || ""}`.trim() : "Unknown";
         const newText = `Tin nhắn từ ${messageFrom} đã bị xoá do chứa URL không hợp lệ.`;
@@ -65,6 +65,23 @@ const webhookService = {
       console.error("Error processing webhook message:", error);
       return false
     }
+  },
+
+  isNotForwardMessage: (message) => {
+    if(typeof message.forward_origin ==='undefined' && typeof message.external_reply === 'undefined'){
+      return true
+    }
+    if(typeof message.sender_chat !== 'undefined'){
+      if(message.sender_chat.id === -1002716471604){
+        return true
+      }
+    }
+    if(typeof message.from !== 'undefined'){
+      if (listAdminId.includes(message.from.id)) {
+        return true
+      }
+    }
+    return false
   },
 
   welcomeNewUser: async (message) => {
